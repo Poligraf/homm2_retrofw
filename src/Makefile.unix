@@ -1,0 +1,5 @@
+CXX := mipsel-linux-g++
+AR:=mipsel-linux-ar
+CC:=mipsel-linux-gcc
+STRIP:=mipsel-linux-strip
+CFLAGS := $(CFLAGS) -DWITHOUT_MOUSE -O3
