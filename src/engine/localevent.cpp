@@ -25,6 +25,17 @@
 #include "audio_music.h"
 #include "display.h"
 #include "error.h"
+uint8_t *keystate = SDL_GetKeyState(NULL);
+
+#define	BUTTON_UP		SDLK_UP			// Up
+#define	BUTTON_DOWN		SDLK_DOWN		// Down
+#define	BUTTON_LEFT		SDLK_LEFT		// Left
+#define	BUTTON_RIGHT	SDLK_RIGHT		// Right
+
+
+int av_mouse_cur_x;
+int av_mouse_cur_y;
+
 
 #define TAP_DELAY_EMULATE 1050
 
@@ -41,10 +52,10 @@ LocalEvent::LocalEvent()
 {
   #ifdef WITHOUT_MOUSE
       emulate_mouse = true;
-      emulate_mouse_up = KEY_UP;
-      emulate_mouse_down = KEY_DOWN;
-      emulate_mouse_left = KEY_LEFT;
-      emulate_mouse_right = KEY_RIGHT;
+      emulate_mouse_up = KEY_w;
+      emulate_mouse_down = KEY_s;
+      emulate_mouse_left = KEY_a;
+      emulate_mouse_right = KEY_d;
       emulate_mouse_step = 4;
       emulate_press_left = KEY_CONTROL;
       emulate_press_right = KEY_2;
@@ -141,14 +152,14 @@ KeySym GetKeySym( int key )
 
     case SDLK_RETURN:
         return KEY_RETURN;
-    case SDLK_LEFT:
-        return KEY_LEFT;
-    case SDLK_RIGHT:
-        return KEY_RIGHT;
-    case SDLK_UP:
-        return KEY_UP;
-    case SDLK_DOWN:
-        return KEY_DOWN;
+    // case SDLK_LEFT:
+    //     return KEY_LEFT;
+    // case SDLK_RIGHT:
+    //     return KEY_RIGHT;
+    // case SDLK_UP:
+    //     return KEY_UP;
+    // case SDLK_DOWN:
+    //     return KEY_DOWN;
 
     case SDLK_ESCAPE:
         return KEY_ESCAPE;
@@ -477,6 +488,24 @@ bool LocalEvent::HandleEvents( bool delay )
 #endif
         // keyboard
         case SDL_KEYDOWN:
+
+    			//poll mouse state
+
+    			if ((keystate[BUTTON_DOWN] || keystate[BUTTON_UP] ||
+    			keystate[BUTTON_LEFT] || keystate[BUTTON_RIGHT])) {
+    				SDL_GetMouseState(&av_mouse_cur_x, &av_mouse_cur_y);
+    				av_mouse_cur_x += 5 * (keystate[BUTTON_RIGHT] - keystate[BUTTON_LEFT]);
+    				av_mouse_cur_y += 5 * (keystate[BUTTON_DOWN]  - keystate[BUTTON_UP]);
+
+    				if (av_mouse_cur_x < 0) av_mouse_cur_x = 0;
+    				if (av_mouse_cur_x > 320) av_mouse_cur_x = 320;
+    				if (av_mouse_cur_y < 0) av_mouse_cur_y = 0;
+    				if (av_mouse_cur_y > 240) av_mouse_cur_y = 240;
+
+    				SDL_WarpMouse(av_mouse_cur_x, av_mouse_cur_y);
+
+          }
+
         case SDL_KEYUP:
             HandleKeyboardEvent( event.key );
             break;

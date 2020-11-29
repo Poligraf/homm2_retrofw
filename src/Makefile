@@ -19,7 +19,9 @@ LDFLAGS := $(LDFLAGS)
 LIBS :=
 
 ifdef DEBUG
-CFLAGS := $(CFLAGS) -O0 -g -pedantic -DWITH_DEBUG
+#CFLAGS := $(CFLAGS) -O0 -g -pedantic -DWITH_DEBUG
+CFLAGS := -O2 $(CFLAGS)
+
 else
 CFLAGS := -O2 $(CFLAGS)
 endif
