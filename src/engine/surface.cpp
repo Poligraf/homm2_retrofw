@@ -292,7 +292,7 @@ Surface::Surface( const void * pixels, u32 width, u32 height, u32 bytes_per_pixe
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
         surface = SDL_CreateRGBSurface( 0, width, height, fm.depth, fm.rmask, fm.gmask, fm.bmask, ( amask ? fm.amask : 0 ) );
 #else
-        surface = SDL_CreateRGBSurface( SDL_SWSURFACE, width, height, fm.depth, fm.rmask, fm.gmask, fm.bmask, ( amask ? fm.amask : 0 ) );
+        surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, fm.depth, fm.rmask, fm.gmask, fm.bmask, ( amask ? fm.amask : 0 ) );
 #endif
     }
     else {
@@ -387,7 +387,7 @@ void Surface::Set( u32 sw, u32 sh, const SurfaceFormat & fm )
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
     surface = SDL_CreateRGBSurface( 0, sw, sh, fm.depth, fm.rmask, fm.gmask, fm.bmask, fm.amask );
 #else
-    surface = SDL_CreateRGBSurface( SDL_SWSURFACE, sw, sh, fm.depth, fm.rmask, fm.gmask, fm.bmask, fm.amask );
+    surface = SDL_CreateRGBSurface( SDL_HWSURFACE, sw, sh, fm.depth, fm.rmask, fm.gmask, fm.bmask, fm.amask );
 #endif
 
     if ( !surface )

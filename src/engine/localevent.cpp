@@ -52,13 +52,13 @@ LocalEvent::LocalEvent()
 {
   #ifdef WITHOUT_MOUSE
       emulate_mouse = true;
-      emulate_mouse_up = KEY_w;
-      emulate_mouse_down = KEY_s;
-      emulate_mouse_left = KEY_a;
-      emulate_mouse_right = KEY_d;
+      // emulate_mouse_up = KEY_w;
+      // emulate_mouse_down = KEY_s;
+      // emulate_mouse_left = KEY_a;
+      // emulate_mouse_right = KEY_d;
       emulate_mouse_step = 4;
-      emulate_press_left = KEY_CONTROL;
-      emulate_press_right = KEY_2;
+      emulate_press_left = KEY_BACKSPACE;
+      emulate_press_right = KEY_TAB;
   #endif
 }
 
@@ -151,7 +151,7 @@ KeySym GetKeySym( int key )
         break;
 
     case SDLK_RETURN:
-        return KEY_RETURN;
+        return KEY_e;
     // case SDLK_LEFT:
     //     return KEY_LEFT;
     // case SDLK_RIGHT:
@@ -218,15 +218,17 @@ KeySym GetKeySym( int key )
     case SDLK_UNDERSCORE:
         return KEY_UNDERSCORE;
     case SDLK_LALT:
-        return KEY_ALT;
+        return KEY_t;
     case SDLK_RALT:
         return KEY_ALT;
     case SDLK_LCTRL:
-        return KEY_CONTROL;
+        return KEY_h;
     case SDLK_RCTRL:
         return KEY_CONTROL;
+    case SDLK_HOME:
+        return KEY_f;
     case SDLK_LSHIFT:
-        return KEY_SHIFT;
+        return KEY_c;
     case SDLK_RSHIFT:
         return KEY_SHIFT;
     case SDLK_TAB:
@@ -236,9 +238,9 @@ KeySym GetKeySym( int key )
     case SDLK_DELETE:
         return KEY_DELETE;
     case SDLK_PAGEUP:
-        return KEY_PAGEUP;
+        return KEY_s;
     case SDLK_PAGEDOWN:
-        return KEY_PAGEDOWN;
+        return KEY_l;
     case SDLK_F1:
         return KEY_F1;
     case SDLK_F2:
@@ -266,13 +268,13 @@ KeySym GetKeySym( int key )
     case SDLK_0:
         return KEY_0;
     case SDLK_1:
-        return KEY_1;
+        return KEY_d;
     case SDLK_2:
         return KEY_2;
     case SDLK_3:
-        return KEY_3;
-    case SDLK_4:
         return KEY_4;
+    case SDLK_4:
+        return KEY_5;
     case SDLK_5:
         return KEY_5;
     case SDLK_6:
@@ -284,13 +286,13 @@ KeySym GetKeySym( int key )
     case SDLK_9:
         return KEY_9;
     case SDLK_a:
-        return KEY_a;
+         return KEY_LEFT;
     case SDLK_b:
         return KEY_b;
     case SDLK_c:
         return KEY_c;
     case SDLK_d:
-        return KEY_d;
+         return KEY_RIGHT;
     case SDLK_e:
         return KEY_e;
     case SDLK_f:
@@ -320,7 +322,7 @@ KeySym GetKeySym( int key )
     case SDLK_r:
         return KEY_r;
     case SDLK_s:
-        return KEY_s;
+         return KEY_DOWN;
     case SDLK_t:
         return KEY_t;
     case SDLK_u:
@@ -328,7 +330,7 @@ KeySym GetKeySym( int key )
     case SDLK_v:
         return KEY_v;
     case SDLK_w:
-        return KEY_w;
+         return KEY_UP;
     case SDLK_x:
         return KEY_x;
     case SDLK_y:
@@ -490,22 +492,22 @@ bool LocalEvent::HandleEvents( bool delay )
         case SDL_KEYDOWN:
 
     			//poll mouse state
+        {
+      			if ((keystate[BUTTON_DOWN] || keystate[BUTTON_UP] ||
+      			keystate[BUTTON_LEFT] || keystate[BUTTON_RIGHT])) {
+      				SDL_GetMouseState(&av_mouse_cur_x, &av_mouse_cur_y);
+      				av_mouse_cur_x += 7 * (keystate[BUTTON_RIGHT] - keystate[BUTTON_LEFT]);
+      				av_mouse_cur_y += 7 * (keystate[BUTTON_DOWN]  - keystate[BUTTON_UP]);
 
-    			if ((keystate[BUTTON_DOWN] || keystate[BUTTON_UP] ||
-    			keystate[BUTTON_LEFT] || keystate[BUTTON_RIGHT])) {
-    				SDL_GetMouseState(&av_mouse_cur_x, &av_mouse_cur_y);
-    				av_mouse_cur_x += 5 * (keystate[BUTTON_RIGHT] - keystate[BUTTON_LEFT]);
-    				av_mouse_cur_y += 5 * (keystate[BUTTON_DOWN]  - keystate[BUTTON_UP]);
+      				if (av_mouse_cur_x < 0) av_mouse_cur_x = 0;
+      				if (av_mouse_cur_x > 320) av_mouse_cur_x = 320;
+      				if (av_mouse_cur_y < 0) av_mouse_cur_y = 0;
+      				if (av_mouse_cur_y > 240) av_mouse_cur_y = 240;
 
-    				if (av_mouse_cur_x < 0) av_mouse_cur_x = 0;
-    				if (av_mouse_cur_x > 320) av_mouse_cur_x = 320;
-    				if (av_mouse_cur_y < 0) av_mouse_cur_y = 0;
-    				if (av_mouse_cur_y > 240) av_mouse_cur_y = 240;
+      				SDL_WarpMouse(av_mouse_cur_x, av_mouse_cur_y);
 
-    				SDL_WarpMouse(av_mouse_cur_x, av_mouse_cur_y);
-
+            }
           }
-
         case SDL_KEYUP:
             HandleKeyboardEvent( event.key );
             break;

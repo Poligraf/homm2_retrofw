@@ -203,22 +203,17 @@ int IMG_SavePNG_RW( SDL_RWops * src, SDL_Surface * surf, int compression )
         if ( funky_format ) {
             /* Allocate non-funky format, and copy pixeldata in*/
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
-            tempsurf = SDL_CreateRGBSurface( SDL_SWSURFACE, surf->w, surf->h, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff );
+            tempsurf = SDL_CreateRGBSurface( SDL_HWSURFACE, surf->w, surf->h, 32, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff );
 #else
-            tempsurf = SDL_CreateRGBSurface( SDL_SWSURFACE, surf->w, surf->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000 );
+            tempsurf = SDL_CreateRGBSurface( SDL_HWSURFACE, surf->w, surf->h, 32, 0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000 );
 #endif
             if ( !tempsurf ) {
                 SDL_SetError( "Couldn't allocate temp surface" );
                 goto savedone;
             }
-            if ( surf->flags & SDL_SRCALPHA ) {
-                temp_alpha = fmt->alpha;
-                used_alpha = 1;
-                SDL_SetAlpha( surf, 0, 255 ); /* Set for an opaque blit */
-            }
-            else {
+
                 used_alpha = 0;
-            }
+
             if ( SDL_BlitSurface( surf, NULL, tempsurf, NULL ) != 0 ) {
                 SDL_SetError( "Couldn't blit surface to temp surface" );
                 SDL_FreeSurface( tempsurf );

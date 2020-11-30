@@ -23,7 +23,7 @@ ifdef DEBUG
 CFLAGS := -O2 $(CFLAGS)
 
 else
-CFLAGS := -O2 $(CFLAGS)
+CFLAGS := -Ofast $(CFLAGS)  -Wl,--as-needed -Wl,--gc-sections   -mno-fp-exceptions -mno-check-zero-division -mframe-header-opt -fsingle-precision-constant 
 endif
 
 ifndef WITHOUT_MIXER

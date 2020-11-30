@@ -486,7 +486,7 @@ int System::GetRenderFlags( void )
 #endif
 #else
 #if defined( __MINGW32CE__ ) || defined( __SYMBIAN32__ )
-    return SDL_SWSURFACE;
+    return SDL_HWSURFACE;
 #elif defined( __WIN32__ ) || defined( ANDROID )
     return SDL_HWSURFACE;
 #else
