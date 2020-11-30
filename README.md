@@ -1,5 +1,10 @@
 fheroes2
 ======
+
+Compile with
+
+`make -j4 CXX=mipsel-linux-g++ AR=mipsel-linux-ar CC=mipsel-linux-gcc STRIP=mipsel-linux-strip PREFIX=/run/media/raboten/c03df044-bb85-4f9c-a53f-e537b8a024a0/buildroot/output/host/mipsel-RetroFW-linux-uclibc/sysroot/usr/include/   PLATFORM=unix`
+
 [![Build status](https://travis-ci.org/ihhub/fheroes2.svg?branch=master)](https://travis-ci.org/ihhub/fheroes2) [![Build status](https://ci.appveyor.com/api/projects/status/ih6cw0yr1yuxf4ll?svg=true)](https://ci.appveyor.com/project/ihhub/fheroes2) [![CodeFactor](https://www.codefactor.io/repository/github/ihhub/fheroes2/badge)](https://www.codefactor.io/repository/github/ihhub/fheroes2) [![Github Downloads (monthly)](https://img.shields.io/github/downloads/ihhub/fheroes2/total.svg)]()
 
 Direct continuation of free implementation of Heroes of the Might and Magic II engine. The original project had been developed at [sourceforge](https://sourceforge.net/projects/fheroes2/).
